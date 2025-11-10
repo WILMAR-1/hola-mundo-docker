@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola Mundo - Neón</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Info del estudiante en la esquina */
+        .info-box {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 20px;
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            color: #00ff88;
+            font-size: 14px;
+            line-height: 1.6;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            z-index: 1000;
+        }
+
+        .info-box h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #00ff88;
+        }
+
+        .info-box p {
+            margin: 5px 0;
+        }
+
+        /* Contenedor principal */
+        .container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* Título principal con efecto neón */
+        .neon-title {
+            font-size: 6rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow:
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 30px #ff00de,
+                0 0 40px #ff00de,
+                0 0 50px #ff00de,
+                0 0 60px #ff00de,
+                0 0 70px #ff00de;
+            animation: flicker 2s infinite alternate;
+            margin-bottom: 30px;
+        }
+
+        /* Subtítulo con neón azul */
+        .neon-subtitle {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow:
+                0 0 10px #00fff2,
+                0 0 20px #00fff2,
+                0 0 30px #00fff2,
+                0 0 40px #00fff2,
+                0 0 50px #00fff2;
+            animation: pulse 3s infinite;
+        }
+
+        /* Estado de la BD */
+        .db-status {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #00ff88;
+            border-radius: 15px;
+            display: inline-block;
+            min-width: 400px;
+        }
+
+        .db-status h3 {
+            color: #00ff88;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px #00ff88;
+        }
+
+        .db-info {
+            color: #fff;
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+
+        .loading {
+            color: #ffd700;
+            font-size: 1.2rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Animaciones */
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow:
+                    0 0 10px #fff,
+                    0 0 20px #fff,
+                    0 0 30px #ff00de,
+                    0 0 40px #ff00de,
+                    0 0 50px #ff00de,
+                    0 0 60px #ff00de,
+                    0 0 70px #ff00de;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Partículas de fondo */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Info del estudiante -->
+    <div class="info-box">
+        <h3>Información del Proyecto</h3>
+        <p><strong>Asignatura:</strong> Electiva 2</p>
+        <p><strong>Profesor:</strong> Elvys Cruz</p>
+        <p><strong>Estudiante:</strong> Wilmar Gómez de la Cruz</p>
+        <p><strong>Matrícula:</strong> 2024-0103</p>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <h1 class="neon-title">HOLA MUNDO</h1>
+        <p class="neon-subtitle">Docker + MySQL + Node.js</p>
+
+        <div class="db-status">
+            <h3>Estado de la Base de Datos</h3>
+            <div id="status-content" class="loading">
+                Conectando con MySQL...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Crear partículas flotantes
+        function createParticles() {
+            const particleCount = 50;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+
+                // Colores aleatorios para las partículas
+                const colors = ['#ff00de', '#00fff2', '#00ff88', '#ffd700'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
+
+                document.body.appendChild(particle);
+            }
+        }
+
+        // Verificar estado de la BD
+        async function checkDatabaseStatus() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+
+                const statusContent = document.getElementById('status-content');
+
+                if (data.status === 'success') {
+                    statusContent.innerHTML = `
+                        <div class="db-info" style="color: #00ff88;">
+                            Conexión exitosa a MySQL
+                        </div>
+                        <div class="db-info">
+                            Base de datos: <strong>${data.database}</strong>
+                        </div>
+                        <div class="db-info">
+                            Total de visitas: <strong>${data.totalVisitas}</strong>
+                        </div>
+                    `;
+                } else {
+                    statusContent.innerHTML = `
+                        <div class="db-info" style="color: #ff4444;">
+                            Error: ${data.message}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                const statusContent = document.getElementById('status-content');
+                statusContent.innerHTML = `
+                    <div class="db-info" style="color: #ff4444;">
+                        Error de conexión: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Inicializar
+        createParticles();
+        checkDatabaseStatus();
+
+        // Actualizar estado cada 5 segundos
+        setInterval(checkDatabaseStatus, 5000);
+    </script>
+</body>
+</html>
