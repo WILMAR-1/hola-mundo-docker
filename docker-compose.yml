@@ -28,8 +28,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=rootpassword
       - MYSQL_DATABASE=hola_mundo_db
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3307:3306"  # Puerto comentado para evitar conflictos (no necesario para la app)
     volumes:
       - mysql-data:/var/lib/mysql
     restart: unless-stopped
